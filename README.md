@@ -1,13 +1,15 @@
 # Info
 
-This project is a simple ERC721 (ethereum) NFT minting contract & user interface.
+This project is a simple ERC721 (ethereum) NFT minting contract & user interface.\
+It's a little play around the fork of https://github.com/DeveloperAlly/filecoin_nft_starter 
+
 It uses IPFS Protocol to create unique CIDs that point to the NFT data, it then stores this information on Filecoin for reliable & persistent storage.
 
 It takes advantage of the very handy IPFS & Filecoin dev ecosystem tool NFT.Storage to make doing this easy (& free!).
 
 The DApp UI is deployed on fleek.co. Fleek makes it easy to deploy websites and apps on the new open web: permissionless, trustless, censorship resistant, and free of centralized gatekeepers.
 
-You can see the project live here: https://shrill-wave-1303.on.fleek.co/ 
+You can see the project live here: https://falling-resonance-7523.on.fleek.co/
 
 
 # Read-me still a work in progress.... watch this git commit! XD

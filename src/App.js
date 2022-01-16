@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 /* ERC71 based Solidity Contract Interface */
 import filecoinNFTHack from "./utils/FilecoinNFTHack.json";
+//import filecoinNFTHack from "./utils/KleeNFTHack.json";
 
 /* NFT.Storage import for creating an IPFS CID & storing with Filecoin */
 import { NFTStorage, File } from "nft.storage";
