@@ -7,6 +7,8 @@ import filecoinNFTHack from "./utils/FilecoinNFTHack.json";
 import { NFTStorage, File } from "nft.storage";
 import { baseSVG } from "./utils/BaseSVG";
 
+import kleeImg from "./assets/KleeImg/abstract-colour-harmony-in-squares-with-vermillion-accents-1924.jpg"
+
 /* Javascript Lib for evm-compatible blockchain contracts */
 import { ethers } from "ethers";
 
@@ -20,6 +22,12 @@ import Link from "./components/Link";
 import DisplayLinks from "./components/DisplayLinks";
 import ConnectWalletButton from "./components/ConnectWalletButton";
 import NFTViewer from "./components/NFTViewer";
+
+// klee img list
+import kleeImgList from "./utils/kleeImgList"
+
+//console.log('kleeImgList=', kleeImgList)
+
 
 const INITIAL_LINK_STATE = {
   etherscan: "",
@@ -176,7 +184,17 @@ const App = () => {
     const client = new NFTStorage({
       token: process.env.REACT_APP_NFT_STORAGE_API_KEY,
     });
-
+    
+    // Returns a random integer from 0 to 99:
+    const random = Math.floor(Math.random() * kleeImgList.length)
+    console.log('random=', random)
+    //const imgUrl = './assets/KleeImg/' + kleeImgList[random]
+    const imgUrl = kleeImg
+    console.log('kleeImg=', imgUrl)
+    const file = await fetch(imgUrl);
+    const theBlob = await file.blob();
+    console.log("theBlob=", theBlob)
+    
     //lets load up this token with some metadata and our image and save it to NFT.storage
     //image contains any File or Blob you want to save
     //name, image, description, other traits.
@@ -185,17 +203,15 @@ const App = () => {
     try {
       await client
         .store({
-          name: `${name}: Filecoin @ NFTHack 2022`,
+          name: `${name} @ NFTHack 2022`,
           description:
-            "NFT created for EthGlobal NFTHack 2022 and limited to 100 personalised tokens",
+            "Free NFTs created from Klee NFTs Faucet @ EthGlobal NFTHack 2022",
           image: new File(
-            [
-              `${baseSVG}${name}</text>
-      </svg>`,
-            ],
-            `FilecoinNFTHack.svg`,
+            [theBlob],
+            "klee.jpg",
+            //kleeImgList[random],
             {
-              type: "image/svg+xml",
+              type: "image/jpg",
             }
           ),
           traits: {
@@ -226,7 +242,7 @@ const App = () => {
           askContractToMintNft(metadata.url);
         });
     } catch (error) {
-      console.log("Could not save NFT to NFT.Storage - Aborted minting");
+      console.log("Could not save NFT to NFT.Storage - Aborted minting", error);
       setTransactionState({
         ...INITIAL_TRANSACTION_STATE,
         error: "Could not save NFT to NFT.Storage - Aborted minting",
@@ -298,6 +314,20 @@ const App = () => {
     return fetchURL;
   }
 
+  async function fetchWithTimeout(resource, options = {}) {
+    const { timeout = 8000 } = options;
+    
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const response = await fetch(resource, {
+      ...options,
+      signal: controller.signal  
+    });
+    clearTimeout(id);
+    return response;
+  }
+
+
   /* 
     Helper function for fetching the Filecoin data through IPFS gateways 
     to display the images in the UI 
@@ -317,17 +347,22 @@ const App = () => {
         // let link = el[1].split("/");
         // let fetchURL = `https://${link[2]}.ipfs.dweb.link/${link[3]}`;
         console.log("fetchURL", ipfsGatewayLink);
-        const response = await fetch(ipfsGatewayLink, 
+        try {
+          const response = await fetchWithTimeout(ipfsGatewayLink, { timeout: 15000 }
       //     {
       //     method : "GET",
       //     mode: 'cors',
       //     type: 'cors',
       //     headers: {}
       // }
-      );
-        const json = await response.json();
-        // console.log("Responsejson", json)
-        return json;
+          );
+          const json = await response.json();
+          console.log("Responsejson", json)
+          return json;
+        } 
+        catch {
+          return {"name":"Error @ NFTHack 2022","description":"NFT created for EthGlobal NFTHack 2022 and limited to 100 personalised tokens","traits":{"awesomeness":"100"},"image":"ipfs://bafybeibsuq7le6ny6tok2j6d4qb3zrdu32f6ggdoie4mqcceafevexbg6i/FilecoinNFTHack.svg"}
+        }
       })
     );
 

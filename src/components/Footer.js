@@ -3,15 +3,15 @@ import twitterLogo from "../assets/twitter-logo.svg";
 
 const Footer = (props) => {
   return (
-    <div className="footer-container-twitter">
-      <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
+    <div className="footer-container-github">
+      
       <a
         className="footer-text"
-        href="https://twitter.com/developerally"
+        href="https://github.com/acul71/klee_nfts_faucet"
         target="_blank"
         rel="noreferrer"
       >
-        DeveloperAlly
+        https://github.com/acul71/klee_nfts_faucet
       </a>
     </div>
   );
