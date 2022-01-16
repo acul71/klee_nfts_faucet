@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol"; //alows for console.logs in a solidity contract"
 
-contract FilecoinNFTHack is ERC721URIStorage {
+contract KleeNFTsFaucet is ERC721URIStorage {
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -34,9 +34,10 @@ contract FilecoinNFTHack is ERC721URIStorage {
     event RemainingMintableNFTChange(uint256 remainingMintableNFTs);
 
     //This sets our collection details. Anything minted by this contract will fall under this header
-    constructor() ERC721 ("EthGlobal NFTHack2022", "Filecoin Starter NFTs") {
-        console.log("This is my NFT contract");
-        maxNFTs=100; //set a limit to number of nft's that are mintable
+    constructor() ERC721 ("EthGlobal NFTHack2022", "Klee NFTs Faucet") {
+        console.log("This is my Klee NFTs Faucet contract");
+        //maxNFTs=type(uint256).max; //set a limit to number of nft's that are mintable
+        maxNFTs=1000000; //set a limit to number of nft's that are mintable
     }
 
     function mintMyNFT(string memory ipfsURI) public {
